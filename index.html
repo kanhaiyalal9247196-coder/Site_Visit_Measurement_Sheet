@@ -1,0 +1,1510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light">
+<title>Site Visit Measurement Sheet</title>
+<style>
+:root{
+  --navy:#14305e;
+  --navy-d:#0d2244;
+  --rule:#7d90b3;
+  --line:#c5cede;
+  --tint:#eef2f9;
+  --ink:#111827;
+  --desk:#d9dee7;
+  --warn:#b3261e;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{font-family:Arial,Helvetica,sans-serif;font-size:12px;color:var(--ink);background:var(--desk)}
+button{font:inherit;cursor:pointer}
+[hidden]{display:none!important}
+
+/* ---------- Application toolbar (screen only) ---------- */
+.appbar{position:sticky;top:0;z-index:50;background:var(--navy-d);color:#fff;padding:8px 12px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.appbar .brand{font-weight:700;font-size:13px;margin-right:6px;white-space:nowrap}
+.appbar .grp{display:flex;flex-wrap:wrap;gap:6px}
+.appbar .sp{flex:1}
+.tb{background:transparent;color:#fff;border:1px solid #6f86ad;border-radius:3px;padding:8px 12px;font-size:13px;line-height:1}
+.tb:hover{background:#1d3f75}
+.tb.primary{background:#fff;color:var(--navy-d);border-color:#fff;font-weight:700}
+.tb.primary:hover{background:#e3eaf6}
+.tb.danger{border-color:#e39a94}
+.tb.danger:hover{background:#6b1f1a}
+.tb:disabled{opacity:.6;cursor:wait}
+.tb:focus-visible,.pref input:focus-visible{outline:2px solid #ffd54a;outline-offset:2px}
+.pref{display:flex;align-items:center;gap:6px;font-size:12px;color:#c9d5ec}
+.pref input{width:66px;padding:6px;border:1px solid #6f86ad;border-radius:3px;background:#0f2954;color:#fff;font:inherit;text-transform:uppercase}
+.status{font-size:12px;color:#b9c7e3;white-space:nowrap}
+
+/* ---------- Paper ---------- */
+.stage{padding:18px 12px 48px;overflow-x:auto}
+.sheet{width:210mm;min-height:297mm;margin:0 auto;background:#fff;padding:10mm;box-shadow:0 1px 6px rgba(0,0,0,.28)}
+.frame{width:100%;border-collapse:collapse;table-layout:fixed}
+.frame>thead>tr>td,.frame>tbody>tr>td{padding:0;vertical-align:top;font-weight:400;text-align:left}
+
+/* Shared field look. Applies to inputs/textareas and to the flat text copies used for PDF export. */
+.fld{font:12px Arial,Helvetica,sans-serif;color:var(--ink);background:transparent;border:0;border-radius:0;margin:0;padding:0;min-width:0}
+.fld:focus-visible{outline:2px solid #3b6fd4;outline-offset:1px;background:#f4f8ff}
+.fld.invalid{border-bottom-color:var(--warn)!important;background:#fff3f2}
+.pv{white-space:pre-wrap;overflow-wrap:anywhere}
+
+/* ---------- Company header ---------- */
+.doc-header{border:1px solid var(--navy);border-bottom:2px solid var(--navy);background:#fff}
+.hd-top{display:grid;grid-template-columns:24mm 1fr 30mm;min-height:24mm}
+.logo{display:block;width:24mm;height:24mm;margin:0;padding:0;border:0;border-right:1px solid var(--navy);background:#fff}
+.logo svg,.logo img{display:block;width:100%;height:100%;object-fit:contain}
+.logo:focus-visible{outline:2px solid #3b6fd4;outline-offset:-3px}
+.hd-name{display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:2mm 2mm}
+.hd-name h1{margin:0;font-size:19px;line-height:1.15;font-weight:800;letter-spacing:.2px;color:var(--navy);text-transform:uppercase;white-space:nowrap}
+.iso{margin:2mm 0 0;font-size:8px;font-weight:700;letter-spacing:.4px;color:var(--navy)}
+.hd-init{position:relative;border-left:1px solid var(--navy)}
+.hd-init .sk{position:absolute;inset:0}
+.init-cap{position:absolute;left:2mm;bottom:.8mm;font-size:7px;letter-spacing:.3px;color:var(--rule);pointer-events:none;z-index:1}
+.hd-title{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:3mm;border-top:1px solid var(--navy);padding:1.6mm 3mm}
+.hd-title h2{margin:0;font-size:15px;font-weight:700;color:var(--navy);text-align:center;white-space:nowrap}
+.run{font-size:9px;line-height:1.4;color:var(--navy)}
+.run.r{text-align:right}
+.run b{color:var(--ink);font-weight:700}
+
+/* ---------- Customer / site details ---------- */
+.cust{display:grid;grid-template-columns:57% 43%;grid-template-rows:repeat(5,minmax(8mm,auto));border:1px solid var(--navy);border-top:0}
+.f{display:flex;align-items:flex-end;gap:2mm;padding:0 3mm;min-width:0}
+.f label{font-size:10.5px;font-weight:700;color:var(--navy);white-space:nowrap;padding-bottom:1.3mm}
+.f .fld{flex:1;height:6mm;border-bottom:1px solid var(--rule);padding:0 1mm}
+.f .fld.pv{line-height:6mm;white-space:nowrap;overflow:hidden}
+.f.cn{grid-column:1;grid-row:1}
+.f.ad{grid-column:1;grid-row:2/4;align-items:flex-start}
+.f.ct{grid-column:1;grid-row:4}
+.f.ml{grid-column:1;grid-row:5}
+.f.r{grid-column:2;border-left:1px solid var(--navy)}
+.f.r1{grid-row:1}.f.r2{grid-row:2}.f.r3{grid-row:3}.f.r4{grid-row:4}.f.r5{grid-row:5}
+.f.ad label{line-height:8mm;padding:0}
+.f .fld.addr{height:auto;min-height:16mm;line-height:8mm;padding:0 1mm;border-bottom:0;resize:none;overflow:hidden;
+  background-image:repeating-linear-gradient(to bottom,transparent 0,transparent calc(8mm - 1px),var(--rule) calc(8mm - 1px),var(--rule) 8mm)}
+.f .fld.addr.pv{white-space:pre-wrap;overflow:visible}
+.f .fld.addr:focus-visible{background-color:#f4f8ff}
+.quote-wrap{display:flex;align-items:flex-end;flex:1;gap:1mm;min-width:0}
+.quote-wrap .fld{flex:1}
+.mini-btn{border:1px solid #b4c0d8;background:#fff;color:var(--navy);border-radius:3px;font-size:10px;padding:2px 5px;line-height:1.2;margin-bottom:1mm}
+.mini-btn:hover{background:var(--tint)}
+
+/* ---------- Measurement table ---------- */
+.mtable{width:100%;table-layout:fixed;border-collapse:separate;border-spacing:0;border-left:1px solid var(--navy)}
+.mtable th,.mtable td{border-right:1px solid var(--navy);border-bottom:1px solid var(--navy);padding:0;vertical-align:top}
+.mtable thead th{background:var(--tint);color:var(--navy);font-size:11px;font-weight:700;text-align:center;padding:1.8mm 1mm}
+.mrow td{padding:1mm 1.2mm}
+.mrow td.c-draw{padding:0}
+.mrow.dragging{opacity:.65;outline:2px dashed var(--navy)}
+.c-sno{text-align:center}
+.sno{display:block;padding:2mm 0 1mm;font-size:13px;font-weight:700;color:var(--navy)}
+.rowctl{display:flex;flex-direction:column;align-items:center;gap:4px;margin-top:4px}
+.rc{width:28px;height:28px;padding:0;border:1px solid #b4c0d8;background:#fff;border-radius:3px;color:var(--navy);display:grid;place-items:center}
+.rc:hover{background:var(--tint)}
+.rc.del:hover{background:#fdecea;color:var(--warn);border-color:#e0a09b}
+.rc.drag{cursor:grab;touch-action:none}
+.rc:focus-visible{outline:2px solid #3b6fd4;outline-offset:1px}
+.ic{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.fld.cell{display:block;width:100%;min-height:46mm;line-height:1.35;resize:none;overflow:hidden}
+.fld.nos{display:block;width:100%;text-align:center;font-size:14px;padding:2mm 0;-moz-appearance:textfield;appearance:textfield}
+.fld.nos::-webkit-outer-spin-button,.fld.nos::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+.fld.nos.pv{padding:2mm 0}
+.dims{display:flex;align-items:center;gap:1.5mm;height:6mm;padding:0 1.5mm;border-top:1px solid var(--line);font-size:9.5px;color:var(--navy)}
+.dims .fld{width:17mm;flex:none;height:4.4mm;font-size:10px;text-align:center;border-bottom:1px solid var(--rule);padding:0 1px}
+.dims .fld.pv{line-height:4.4mm;white-space:nowrap;overflow:hidden}
+.addrow{display:block;width:100%;margin:0;padding:10px;border:1px dashed var(--rule);border-top:0;background:#fafbfd;color:var(--navy);font-weight:700;font-size:12px}
+.addrow:hover{background:var(--tint)}
+
+/* ---------- Drawing pad ---------- */
+.sk{display:block}
+.sk-bar{display:flex;flex-wrap:wrap;align-items:center;gap:2px;padding:2px;background:#f2f5fa;border-bottom:1px solid var(--line)}
+.sk-bar button{width:26px;height:26px;padding:0;border:1px solid transparent;border-radius:3px;background:transparent;color:var(--navy);display:grid;place-items:center}
+.sk-bar button:hover:not(:disabled){background:#e0e8f5}
+.sk-bar button[aria-pressed="true"]{background:var(--navy);color:#fff}
+.sk-bar button:disabled{opacity:.35;cursor:default}
+.sk-bar button:focus-visible{outline:2px solid #3b6fd4;outline-offset:1px}
+.sk-bar .sep{width:1px;height:16px;background:var(--line);margin:0 2px}
+.sk-bar input[type=range]{width:46px;margin:0 2px;accent-color:var(--navy)}
+.sk-wrap{position:relative;height:48mm;background:#fff}
+.sk-wrap.grid{background-image:linear-gradient(to right,#d5dff0 1px,transparent 1px),linear-gradient(to bottom,#d5dff0 1px,transparent 1px);background-size:10px 10px}
+.sk-canvas{position:absolute;inset:0;display:block;width:100%;height:100%;touch-action:none;cursor:crosshair}
+.sk-canvas:focus-visible{outline:2px solid #3b6fd4;outline-offset:-2px}
+.sk-text{position:absolute;z-index:5;width:96px;transform:translate(-50%,-50%);font:12px Arial,Helvetica,sans-serif;padding:2px 4px;border:1px solid var(--navy);background:#fff;color:var(--ink)}
+.sk-text.left{transform:translate(0,-50%)}
+.sk.mini,.sk.mini .sk-wrap{height:100%}
+.sk-mini-clear{position:absolute;top:1px;right:1px;z-index:4;width:18px;height:18px;padding:0;border:1px solid #b4c0d8;border-radius:3px;background:#fff;color:var(--navy);font-size:12px;line-height:1}
+.sk-mini-clear:hover{background:var(--tint)}
+
+/* ---------- Signature section ---------- */
+.sign{display:grid;grid-template-columns:repeat(4,1fr);gap:8mm;margin-top:8mm;padding:0 2mm 2mm;break-inside:avoid;page-break-inside:avoid}
+.sg{display:flex;flex-direction:column;justify-content:flex-end;height:28mm}
+.sg .fld.nm{display:block;width:100%;height:12mm;text-align:center;font:italic 17px 'Segoe Script','Bradley Hand','Lucida Handwriting','Brush Script MT',cursive;color:#1b3a8a}
+.sg .fld.nm.pv{line-height:12mm;white-space:nowrap;overflow:hidden}
+.sg .ln{border-top:1px solid var(--navy)}
+.sg .lb{margin-top:1.5mm;text-align:center;font-size:10px;font-weight:700;color:var(--navy)}
+.sg .sub{text-align:center;font-size:7.5px;color:#4a5b7c;min-height:9px}
+
+/* ---------- Dialogs, toasts, busy overlay ---------- */
+dialog{width:min(520px,92vw);padding:0;border:1px solid var(--navy);border-radius:4px;color:var(--ink);background:#fff}
+dialog::backdrop{background:rgba(10,20,40,.55)}
+.dlg-h{padding:12px 16px;background:var(--navy-d);color:#fff;font-weight:700;font-size:14px}
+.dlg-b{padding:16px;font-size:13px;line-height:1.5;max-height:60vh;overflow:auto}
+.dlg-f{display:flex;justify-content:flex-end;gap:8px;padding:10px 16px 14px}
+.dlg-f form{display:contents}
+.b2{padding:8px 14px;border:1px solid var(--navy);border-radius:3px;background:#fff;color:var(--navy);font-size:13px}
+.b2:hover{background:var(--tint)}
+.b2.solid{background:var(--navy);color:#fff}
+.b2.solid:hover{background:var(--navy-d)}
+.b2.danger{background:var(--warn);border-color:var(--warn);color:#fff}
+.b2:focus-visible{outline:2px solid #3b6fd4;outline-offset:2px}
+.ul{list-style:none;margin:0;padding:0}
+.ul li{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.ul li:last-child{border-bottom:0}
+.li-main{min-width:0}
+.li-main strong{display:block;color:var(--navy)}
+.li-main span,.li-main small{display:block;color:#4a5b7c;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.li-act{display:flex;gap:6px;flex:none}
+.empty-msg{color:#4a5b7c}
+.toasts{position:fixed;left:12px;bottom:12px;z-index:3000;display:flex;flex-direction:column;gap:6px;max-width:calc(100vw - 24px)}
+.toast{background:var(--navy-d);color:#fff;padding:9px 13px;border-radius:3px;font-size:13px;box-shadow:0 2px 6px rgba(0,0,0,.3)}
+.toast.error{background:#8f1d17}
+.toast.warn{background:#7a5200}
+.busy{position:fixed;inset:0;z-index:2100;background:#fff;display:none;place-items:center;text-align:center;color:var(--navy);font-size:15px;padding:20px}
+.busy.on{display:grid}
+.pdf-stage{position:fixed;left:0;top:0;z-index:2000;width:190mm;background:#fff}
+.piece{width:190mm;background:#fff}
+
+@media (pointer:coarse){
+  .tb{padding:11px 14px}
+  .sk-bar button{width:32px;height:32px}
+  .rc{width:36px;height:36px}
+  .sk-bar input[type=range]{width:60px}
+}
+@media (max-width:640px){
+  .appbar .brand{width:100%}
+  .status{width:100%}
+}
+
+/* ---------- Print ---------- */
+@page{
+  size:A4 portrait;
+  margin:10mm 10mm 14mm 10mm;
+  @bottom-right{content:"Page " counter(page) " of " counter(pages);font:9px Arial,Helvetica,sans-serif;color:#14305e}
+  @bottom-left{content:"FABRICATIONZONE WINDOOR PVT. LTD. | Site Visit Measurement Sheet";font:8px Arial,Helvetica,sans-serif;color:#14305e}
+}
+@media print{
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  html,body{background:#fff}
+  .appbar,.no-print,.toasts,dialog,.busy,.addrow,.pdf-stage{display:none!important}
+  .stage{padding:0;overflow:visible!important}
+  .sheet{width:auto;min-height:0;margin:0;padding:0;box-shadow:none}
+  .frame>thead{display:table-header-group}
+  .frame>tfoot{display:table-footer-group}
+  .mtable thead{display:table-header-group}
+  .mrow{break-inside:avoid;page-break-inside:avoid}
+  .fld{outline:0!important;background-color:transparent!important;-webkit-appearance:none;appearance:none}
+  .fld.invalid{border-bottom-color:var(--rule)!important}
+  .fld::placeholder{color:transparent}
+  input[type=date]::-webkit-calendar-picker-indicator,input[type=date]::-webkit-inner-spin-button{display:none}
+  .dims.empty{display:none}
+  .sk-wrap.grid{background-image:none}
+  .logo{cursor:default}
+}
+</style>
+</head>
+<body>
+
+<div class="appbar no-print" role="toolbar" aria-label="Sheet actions">
+  <span class="brand">Site Visit Measurement Sheet</span>
+  <div class="grp">
+    <button type="button" class="tb" id="btnNew">New Sheet</button>
+    <button type="button" class="tb" id="btnSave">Save</button>
+    <button type="button" class="tb" id="btnLoad">Load</button>
+    <button type="button" class="tb" id="btnAdd">Add Row</button>
+    <button type="button" class="tb primary" id="btnPrint">Print</button>
+    <button type="button" class="tb primary" id="btnPdf">Download PDF</button>
+    <button type="button" class="tb danger" id="btnReset">Reset</button>
+  </div>
+  <span class="sp"></span>
+  <label class="pref" title="Used when generating new Quote Nos.">Quote prefix
+    <input type="text" id="prefix" maxlength="10" autocomplete="off" spellcheck="false" aria-label="Quote number prefix">
+  </label>
+  <span class="status" id="status" role="status">Draft not saved yet</span>
+</div>
+
+<main class="stage">
+  <article class="sheet" id="sheet">
+    <table class="frame">
+      <thead>
+        <tr><td>
+          <header class="doc-header" id="docHeader">
+            <div class="hd-top">
+              <button type="button" class="logo" id="logoBtn" title="Click to replace the logo (Shift+click restores the default)" aria-label="Company logo. Click to replace."></button>
+              <div class="hd-name">
+                <h1>Fabricationzone Windoor Pvt. Ltd.</h1>
+                <p class="iso">(AN ISO 9001: 2015 CERTIFIED COMPANY)</p>
+              </div>
+              <div class="hd-init" aria-label="Initials area">
+                <div class="sk mini" id="initHost"></div>
+                <span class="init-cap">Initial</span>
+              </div>
+            </div>
+            <div class="hd-title">
+              <div class="run">Sheet No.: <b id="runPage">-</b></div>
+              <h2>Site Visit Measurement Sheet</h2>
+              <div class="run r">Quote No.: <b id="runQuote">-</b><br>Visit Date: <b id="runDate">-</b></div>
+            </div>
+          </header>
+        </td></tr>
+      </thead>
+      <tbody>
+        <tr><td>
+          <section class="cust" id="cust" aria-label="Customer and site details">
+            <div class="f cn"><label for="f_customer">Customer Name</label><input class="fld" id="f_customer" data-info="customer" type="text" autocomplete="off" required></div>
+            <div class="f ad"><label for="f_address">Site Address</label><textarea class="fld addr" id="f_address" data-info="address" rows="2"></textarea></div>
+            <div class="f ct"><label for="f_contact">Contact No.</label><input class="fld" id="f_contact" data-info="contact" type="tel" autocomplete="off"></div>
+            <div class="f ml"><label for="f_mail">Mail ID</label><input class="fld" id="f_mail" data-info="mail" type="email" autocomplete="off"></div>
+
+            <div class="f r r1"><label for="f_ref">Ref. Name</label><input class="fld" id="f_ref" data-info="refName" type="text" autocomplete="off"></div>
+            <div class="f r r2"><label for="f_page">Page No.</label><input class="fld" id="f_page" data-info="pageNo" type="text" autocomplete="off"></div>
+            <div class="f r r3"><label for="f_date">Visit Date</label><input class="fld" id="f_date" data-info="visitDate" type="date"></div>
+            <div class="f r r4"><label for="f_quote">Quote No.</label>
+              <span class="quote-wrap"><input class="fld" id="f_quote" data-info="quoteNo" type="text" autocomplete="off">
+              <button type="button" class="mini-btn no-print" id="btnQuoteAuto" title="Generate the next Quote No. using the current prefix">Auto</button></span></div>
+            <div class="f r r5"><label for="f_sales">Salesman</label><input class="fld" id="f_sales" data-info="salesman" type="text" autocomplete="off"></div>
+          </section>
+
+          <table class="mtable" id="mtable" aria-label="Measurement table">
+            <colgroup>
+              <col style="width:7%"><col style="width:36%"><col style="width:6%"><col style="width:12%">
+              <col style="width:11%"><col style="width:11%"><col style="width:9%"><col style="width:8%">
+            </colgroup>
+            <thead>
+              <tr>
+                <th scope="col">S. No.</th><th scope="col">Drawing</th><th scope="col">Nos</th><th scope="col">Series</th>
+                <th scope="col">Colour</th><th scope="col">Glass</th><th scope="col">Remark</th><th scope="col">Location</th>
+              </tr>
+            </thead>
+            <tbody id="rows"></tbody>
+          </table>
+          <button type="button" class="addrow no-print" id="btnAddBottom">+ Add Row</button>
+
+          <section class="sign" id="sign" aria-label="Signatures">
+            <div class="sg"><input class="fld nm" data-sign="prepared" type="text" aria-label="Prepared by name" placeholder="Name" autocomplete="off"><div class="ln"></div><div class="lb">Prepared By</div><div class="sub"></div></div>
+            <div class="sg"><input class="fld nm" data-sign="checked" type="text" aria-label="Checked by name" placeholder="Name" autocomplete="off"><div class="ln"></div><div class="lb">Checked By</div><div class="sub"></div></div>
+            <div class="sg"><input class="fld nm" data-sign="customer" type="text" aria-label="Customer signature name" placeholder="Name" autocomplete="off"><div class="ln"></div><div class="lb">Customer Signature</div><div class="sub"></div></div>
+            <div class="sg"><input class="fld nm" data-sign="authorized" type="text" aria-label="Authorized signature name" placeholder="Name" autocomplete="off"><div class="ln"></div><div class="lb">Authorized Signature</div><div class="sub">For FABRICATIONZONE WINDOOR PVT. LTD.</div></div>
+          </section>
+        </td></tr>
+      </tbody>
+    </table>
+  </article>
+</main>
+
+<input type="file" id="logoFile" accept="image/*" hidden>
+
+<dialog id="confirmDlg" aria-labelledby="cdTitle">
+  <div class="dlg-h" id="cdTitle"></div>
+  <div class="dlg-b" id="cdMsg"></div>
+  <div class="dlg-f"><form method="dialog">
+    <button class="b2" value="cancel" id="cdCancel">Cancel</button>
+    <button class="b2 solid" value="ok" id="cdOk">OK</button>
+  </form></div>
+</dialog>
+
+<dialog id="loadDlg" aria-labelledby="ldTitle">
+  <div class="dlg-h" id="ldTitle">Saved sheets</div>
+  <div class="dlg-b"><ul class="ul" id="loadList"></ul></div>
+  <div class="dlg-f"><button type="button" class="b2" id="loadClose">Close</button></div>
+</dialog>
+
+<div class="toasts no-print" id="toasts" aria-live="polite"></div>
+<div class="busy" id="busy" role="alert"><div id="busyMsg">Preparing PDF...</div></div>
+
+<script>
+(() => {
+'use strict';
+
+/* =====================================================================
+   Utilities
+   ===================================================================== */
+const $  = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
+const uid = (p = 'id') => p + '_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 7);
+const pad = (n, l = 3) => String(n).padStart(l, '0');
+const clone = o => JSON.parse(JSON.stringify(o));
+const todayISO = () => { const d = new Date(); return `${d.getFullYear()}-${pad(d.getMonth() + 1, 2)}-${pad(d.getDate(), 2)}`; };
+const fmtDate = iso => { if (!iso || !/^\d{4}-\d{2}-\d{2}$/.test(iso)) return iso || ''; const [y, m, d] = iso.split('-'); return `${d}/${m}/${y}`; };
+const fmtStamp = ts => { try { return new Date(ts).toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' }); } catch (e) { return ''; } };
+
+function autoGrow(el) {
+  if (!el || el.getClientRects().length === 0) return;
+  el.style.height = 'auto';
+  el.style.height = el.scrollHeight + 'px';
+}
+const autoGrowAll = () => $$('textarea.fld').forEach(autoGrow);
+
+function toast(msg, kind = 'info', ms = 2600) {
+  const wrap = $('#toasts');
+  const el = document.createElement('div');
+  el.className = 'toast ' + kind;
+  el.textContent = msg;
+  wrap.appendChild(el);
+  while (wrap.children.length > 3) wrap.firstChild.remove();
+  setTimeout(() => el.remove(), ms);
+}
+
+function confirmDialog({ title, message, ok = 'OK', cancel = 'Cancel', danger = false }) {
+  return new Promise(resolve => {
+    const dlg = $('#confirmDlg');
+    $('#cdTitle').textContent = title;
+    $('#cdMsg').textContent = message;
+    const okBtn = $('#cdOk');
+    okBtn.textContent = ok;
+    okBtn.className = 'b2 ' + (danger ? 'danger' : 'solid');
+    $('#cdCancel').textContent = cancel;
+    dlg.returnValue = '';
+    dlg.addEventListener('close', () => resolve(dlg.returnValue === 'ok'), { once: true });
+    try { dlg.showModal(); } catch (e) { resolve(window.confirm(message)); }
+    $('#cdCancel').focus();
+  });
+}
+
+const Store = {
+  read(key, fallback) {
+    try { const v = localStorage.getItem(key); return v ? JSON.parse(v) : fallback; }
+    catch (e) { console.error('Storage read failed', e); return fallback; }
+  },
+  write(key, val) {
+    try { localStorage.setItem(key, JSON.stringify(val)); return true; }
+    catch (e) { console.error('Storage write failed', e); return false; }
+  }
+};
+const LS = {
+  draft: 'fzw.measurement.draft.v1',
+  lib: 'fzw.measurement.library.v1',
+  settings: 'fzw.measurement.settings.v1'
+};
+
+/* =====================================================================
+   Icons
+   ===================================================================== */
+const ic = p => `<svg class="ic" viewBox="0 0 16 16" aria-hidden="true">${p}</svg>`;
+const ICON = {
+  pen:    ic('<path d="M2.5 13.5l.8-3.2 7.4-7.4 2.4 2.4-7.4 7.4z"/><path d="M9.2 4.4l2.4 2.4"/>'),
+  line:   ic('<path d="M3 13L13 3"/>'),
+  rect:   ic('<rect x="2.5" y="4" width="11" height="8" rx=".5"/>'),
+  arrow:  ic('<path d="M3 13L13 3M7 3h6v6"/>'),
+  dim:    ic('<path d="M2 8h12M2 5v6M14 5v6M4.5 6L2 8l2.5 2M11.5 6L14 8l-2.5 2"/>'),
+  text:   ic('<path d="M3 4h10M8 4v9M6 13h4"/>'),
+  eraser: ic('<path d="M9.5 2.8l3.7 3.7-6 6H4.3L2.8 11z"/><path d="M6.3 6l3.7 3.7"/>'),
+  undo:   ic('<path d="M5 6h5a3 3 0 010 6H6M5 6l2-2M5 6l2 2"/>'),
+  redo:   ic('<path d="M11 6H6a3 3 0 000 6h4M11 6l-2-2M11 6l-2 2"/>'),
+  trash:  ic('<path d="M3 5h10M6 5V3h4v2M4.5 5l.5 8h6l.5-8"/>'),
+  grid:   ic('<path d="M2.5 2.5h11v11h-11zM6.2 2.5v11M9.8 2.5v11M2.5 6.2h11M2.5 9.8h11"/>'),
+  grip:   ic('<path d="M3 4.5h10M3 8h10M3 11.5h10"/>'),
+  dup:    ic('<rect x="5.5" y="5.5" width="8" height="8"/><path d="M3 10.5V3h7.5"/>')
+};
+const LOGO_SVG = '<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+  '<rect width="64" height="64" fill="#14305e"/>' +
+  '<rect x="11" y="11" width="42" height="42" fill="none" stroke="#ffffff" stroke-width="3"/>' +
+  '<path d="M32 11v42M11 30h42" stroke="#ffffff" stroke-width="2.5"/>' +
+  '<path d="M16 25l9-9M16 20l4-4" stroke="#9fb4da" stroke-width="2" stroke-linecap="round"/>' +
+  '<path d="M38 43h9M44 40l3 3-3 3" stroke="#9fb4da" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>' +
+  '</svg>';
+
+/* =====================================================================
+   Sketch: vector drawing pad, resolution independent
+   ===================================================================== */
+const INK = '#161a22';
+
+class Sketch {
+  constructor(host, data, opts = {}) {
+    this.host = host;
+    this.mini = !!opts.mini;
+    this.label = opts.label || 'Drawing area';
+    this.onChange = opts.onChange || (() => {});
+    this.refW = this.mini ? 110 : 260;
+    data = data || {};
+    this.strokes = (Array.isArray(data.strokes) ? data.strokes : []).filter(s => s && Array.isArray(s.p) && s.p.length);
+    this.grid = !!data.grid;
+    this.tool = 'pen';
+    this.width = this.mini ? 1.6 : 2;
+    this.history = [];
+    this.future = [];
+    this.cur = null;
+    this.pending = null;
+    this.textEl = null;
+    this.W = 0; this.H = 0; this.dpr = 2;
+    this.build();
+    this.bindPointer();
+    this.ro = new ResizeObserver(() => this.resize());
+    this.ro.observe(this.wrap);
+    this.resize();
+  }
+
+  mkBtn(icon, title, fn, toggle) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.innerHTML = icon;
+    b.title = title;
+    b.setAttribute('aria-label', title);
+    if (toggle) b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', fn);
+    return b;
+  }
+
+  build() {
+    this.host.innerHTML = '';
+    this.host.classList.add('sk');
+    this.toolBtns = {};
+    if (!this.mini) {
+      const bar = document.createElement('div');
+      bar.className = 'sk-bar no-print';
+      bar.setAttribute('role', 'toolbar');
+      bar.setAttribute('aria-label', 'Drawing tools');
+      const tools = [['pen', 'Pen'], ['line', 'Straight line'], ['rect', 'Rectangle'], ['arrow', 'Arrow'],
+                     ['dim', 'Dimension line (drag, then type the size)'], ['text', 'Text note'], ['eraser', 'Eraser']];
+      tools.forEach(([t, title]) => {
+        const b = this.mkBtn(ICON[t], title, () => this.setTool(t), true);
+        this.toolBtns[t] = b;
+        bar.appendChild(b);
+      });
+      const sep1 = document.createElement('span'); sep1.className = 'sep'; bar.appendChild(sep1);
+      const range = document.createElement('input');
+      range.type = 'range'; range.min = '1'; range.max = '8'; range.step = '0.5'; range.value = String(this.width);
+      range.title = 'Line width'; range.setAttribute('aria-label', 'Line width');
+      range.addEventListener('input', () => { this.width = parseFloat(range.value) || 2; });
+      bar.appendChild(range);
+      const sep2 = document.createElement('span'); sep2.className = 'sep'; bar.appendChild(sep2);
+      this.undoBtn = this.mkBtn(ICON.undo, 'Undo', () => this.undo());
+      this.redoBtn = this.mkBtn(ICON.redo, 'Redo', () => this.redo());
+      this.clearBtn = this.mkBtn(ICON.trash, 'Clear drawing', () => this.clear());
+      this.gridBtn = this.mkBtn(ICON.grid, 'Show or hide grid', () => this.toggleGrid(), true);
+      [this.undoBtn, this.redoBtn, this.clearBtn, this.gridBtn].forEach(b => bar.appendChild(b));
+      this.host.appendChild(bar);
+    }
+    this.wrap = document.createElement('div');
+    this.wrap.className = 'sk-wrap' + (this.grid ? ' grid' : '');
+    this.canvas = document.createElement('canvas');
+    this.canvas.className = 'sk-canvas';
+    this.canvas.tabIndex = 0;
+    this.canvas.setAttribute('role', 'img');
+    this.canvas.setAttribute('aria-label', this.label);
+    this.ctx = this.canvas.getContext('2d');
+    this.wrap.appendChild(this.canvas);
+    this.host.appendChild(this.wrap);
+    if (this.mini) {
+      const c = document.createElement('button');
+      c.type = 'button'; c.className = 'sk-mini-clear no-print'; c.textContent = '\u00d7';
+      c.title = 'Clear initials'; c.setAttribute('aria-label', 'Clear initials');
+      c.addEventListener('click', () => this.clear());
+      this.wrap.appendChild(c);
+    }
+    this.canvas.addEventListener('keydown', e => {
+      if ((e.ctrlKey || e.metaKey) && !e.shiftKey && e.key.toLowerCase() === 'z') { e.preventDefault(); this.undo(); }
+      else if ((e.ctrlKey || e.metaKey) && (e.key.toLowerCase() === 'y' || (e.shiftKey && e.key.toLowerCase() === 'z'))) { e.preventDefault(); this.redo(); }
+    });
+    this.setTool('pen');
+    this.updateButtons();
+  }
+
+  setTool(t) {
+    if (this.textEl) this.textEl.blur();
+    this.tool = t;
+    Object.entries(this.toolBtns).forEach(([k, b]) => b.setAttribute('aria-pressed', String(k === t)));
+  }
+
+  updateButtons() {
+    if (this.undoBtn) this.undoBtn.disabled = !this.history.length;
+    if (this.redoBtn) this.redoBtn.disabled = !this.future.length;
+    if (this.gridBtn) this.gridBtn.setAttribute('aria-pressed', String(this.grid));
+  }
+
+  pushHistory() {
+    this.history.push(this.strokes.slice());
+    if (this.history.length > 100) this.history.shift();
+  }
+  commit(stroke) {
+    this.pushHistory();
+    this.strokes.push(stroke);
+    this.future = [];
+    this.redraw(); this.updateButtons(); this.changed();
+  }
+  undo() {
+    if (this.textEl) this.textEl.blur();
+    if (!this.history.length) return;
+    this.future.push(this.strokes);
+    this.strokes = this.history.pop();
+    this.redraw(); this.updateButtons(); this.changed();
+  }
+  redo() {
+    if (this.textEl) this.textEl.blur();
+    if (!this.future.length) return;
+    this.history.push(this.strokes);
+    this.strokes = this.future.pop();
+    this.redraw(); this.updateButtons(); this.changed();
+  }
+  clear() {
+    if (this.textEl) this.textEl.blur();
+    if (!this.strokes.length) return;
+    this.pushHistory();
+    this.strokes = [];
+    this.future = [];
+    this.redraw(); this.updateButtons(); this.changed();
+  }
+  toggleGrid() {
+    this.grid = !this.grid;
+    this.wrap.classList.toggle('grid', this.grid);
+    this.updateButtons(); this.changed();
+  }
+  changed() { this.onChange(this.toJSON()); }
+  toJSON() { return { strokes: this.strokes, grid: this.grid }; }
+  destroy() { try { this.ro.disconnect(); } catch (e) { /* ignore */ } }
+
+  /* ---- geometry helpers ---- */
+  pos(e) {
+    const r = this.canvas.getBoundingClientRect();
+    const x = Math.min(1, Math.max(0, (e.clientX - r.left) / (r.width || 1)));
+    const y = Math.min(1, Math.max(0, (e.clientY - r.top) / (r.height || 1)));
+    return [+x.toFixed(4), +y.toFixed(4)];
+  }
+  dist(a, b) { return Math.hypot((a[0] - b[0]) * this.W, (a[1] - b[1]) * this.H); }
+
+  /* ---- input ---- */
+  bindPointer() {
+    const c = this.canvas;
+    c.addEventListener('pointerdown', e => {
+      if (!e.isPrimary || (e.pointerType === 'mouse' && e.button !== 0)) return;
+      e.preventDefault();
+      c.focus({ preventScroll: true });
+      if (this.textEl) this.textEl.blur();
+      const pt = this.pos(e), t = this.tool;
+      try { c.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ }
+      if (t === 'pen' || t === 'eraser') this.cur = { t, w: t === 'eraser' ? this.width * 4 + 4 : this.width, p: [pt] };
+      else this.cur = { t, w: this.width, p: [pt, pt] };
+      this.redraw();
+    });
+    c.addEventListener('pointermove', e => {
+      if (!this.cur || !e.isPrimary) return;
+      const pt = this.pos(e), cur = this.cur;
+      if (cur.t === 'pen' || cur.t === 'eraser') {
+        if (this.dist(pt, cur.p[cur.p.length - 1]) < 1.2) return;
+        cur.p.push(pt);
+      } else if (cur.t !== 'text') {
+        cur.p[1] = pt;
+      } else return;
+      this.redraw();
+    });
+    c.addEventListener('pointerup', e => {
+      if (!this.cur) return;
+      const cur = this.cur; this.cur = null;
+      const pt = this.pos(e);
+      if (cur.t === 'text') { this.redraw(); this.openLabel(cur.p[0], 'text'); return; }
+      if (cur.t === 'pen' || cur.t === 'eraser') { this.commit(cur); return; }
+      cur.p[1] = pt;
+      if (this.dist(cur.p[0], cur.p[1]) < 4) { this.redraw(); return; }
+      if (cur.t === 'dim') {
+        this.pending = cur;
+        this.redraw();
+        this.openLabel([(cur.p[0][0] + cur.p[1][0]) / 2, (cur.p[0][1] + cur.p[1][1]) / 2], 'dim', cur);
+      } else this.commit(cur);
+    });
+    c.addEventListener('pointercancel', () => { this.cur = null; this.redraw(); });
+  }
+
+  openLabel(pt, kind, stroke) {
+    if (this.textEl) this.textEl.blur();
+    const inp = document.createElement('input');
+    inp.type = 'text';
+    inp.className = 'sk-text no-print' + (kind === 'text' ? ' left' : '');
+    inp.maxLength = 40;
+    inp.placeholder = kind === 'dim' ? 'e.g. 1200' : 'Note';
+    inp.setAttribute('aria-label', kind === 'dim' ? 'Dimension text' : 'Note text');
+    inp.style.left = (pt[0] * 100) + '%';
+    inp.style.top = (pt[1] * 100) + '%';
+    this.wrap.appendChild(inp);
+    this.textEl = inp;
+    let done = false;
+    const finish = ok => {
+      if (done) return;
+      done = true;
+      const v = inp.value.trim();
+      this.textEl = null;
+      this.pending = null;
+      inp.remove();
+      if (kind === 'dim') {
+        if (!ok) { this.redraw(); return; }
+        stroke.txt = v;
+        this.commit(stroke);
+      } else if (ok && v) {
+        this.commit({ t: 'text', w: this.width, p: [[+pt[0].toFixed(4), +pt[1].toFixed(4)]], txt: v });
+      } else this.redraw();
+    };
+    inp.addEventListener('keydown', e => {
+      e.stopPropagation();
+      if (e.key === 'Enter') { e.preventDefault(); finish(true); }
+      else if (e.key === 'Escape') { e.preventDefault(); finish(false); }
+    });
+    inp.addEventListener('blur', () => finish(true));
+    setTimeout(() => inp.focus(), 0);
+  }
+
+  /* ---- rendering ---- */
+  resize() {
+    const w = this.wrap.clientWidth, h = this.wrap.clientHeight;
+    if (!w || !h) return;
+    this.dpr = Math.min(3, Math.max(2, window.devicePixelRatio || 1));
+    this.W = w; this.H = h;
+    this.canvas.width = Math.round(w * this.dpr);
+    this.canvas.height = Math.round(h * this.dpr);
+    this.redraw();
+  }
+  redraw() {
+    if (!this.W) return;
+    const ctx = this.ctx;
+    ctx.setTransform(this.dpr, 0, 0, this.dpr, 0, 0);
+    ctx.clearRect(0, 0, this.W, this.H);
+    for (const s of this.strokes) this.drawStroke(ctx, s);
+    if (this.cur && this.cur.t !== 'text') this.drawStroke(ctx, this.cur);
+    if (this.pending) this.drawStroke(ctx, this.pending);
+  }
+  path(ctx, P) {
+    if (P.length === 1) {
+      ctx.beginPath();
+      ctx.arc(P[0][0], P[0][1], ctx.lineWidth / 2, 0, Math.PI * 2);
+      ctx.fill();
+      return;
+    }
+    ctx.beginPath();
+    ctx.moveTo(P[0][0], P[0][1]);
+    for (let i = 1; i < P.length - 1; i++) {
+      const mx = (P[i][0] + P[i + 1][0]) / 2, my = (P[i][1] + P[i + 1][1]) / 2;
+      ctx.quadraticCurveTo(P[i][0], P[i][1], mx, my);
+    }
+    ctx.lineTo(P[P.length - 1][0], P[P.length - 1][1]);
+    ctx.stroke();
+  }
+  head(ctx, x1, y1, x2, y2, len) {
+    const a = Math.atan2(y2 - y1, x2 - x1), sp = 0.45;
+    ctx.beginPath();
+    ctx.moveTo(x2 - len * Math.cos(a - sp), y2 - len * Math.sin(a - sp));
+    ctx.lineTo(x2, y2);
+    ctx.lineTo(x2 - len * Math.cos(a + sp), y2 - len * Math.sin(a + sp));
+    ctx.stroke();
+  }
+  drawStroke(ctx, s) {
+    try {
+      const W = this.W, H = this.H, k = W / this.refW;
+      const P = s.p.map(q => [q[0] * W, q[1] * H]);
+      ctx.save();
+      ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+      ctx.strokeStyle = INK; ctx.fillStyle = INK;
+      ctx.lineWidth = Math.max(0.6, (s.w || 2) * k);
+      switch (s.t) {
+        case 'eraser': ctx.globalCompositeOperation = 'destination-out'; this.path(ctx, P); break;
+        case 'pen': this.path(ctx, P); break;
+        case 'line':
+          ctx.beginPath(); ctx.moveTo(P[0][0], P[0][1]); ctx.lineTo(P[1][0], P[1][1]); ctx.stroke(); break;
+        case 'rect':
+          ctx.strokeRect(Math.min(P[0][0], P[1][0]), Math.min(P[0][1], P[1][1]), Math.abs(P[1][0] - P[0][0]), Math.abs(P[1][1] - P[0][1])); break;
+        case 'arrow':
+          ctx.beginPath(); ctx.moveTo(P[0][0], P[0][1]); ctx.lineTo(P[1][0], P[1][1]); ctx.stroke();
+          this.head(ctx, P[0][0], P[0][1], P[1][0], P[1][1], 9 * k + ctx.lineWidth); break;
+        case 'dim': {
+          const [a, b] = P, L = 8 * k + ctx.lineWidth * 0.5, tick = 7 * k;
+          ctx.beginPath(); ctx.moveTo(a[0], a[1]); ctx.lineTo(b[0], b[1]); ctx.stroke();
+          this.head(ctx, b[0], b[1], a[0], a[1], L);
+          this.head(ctx, a[0], a[1], b[0], b[1], L);
+          const ang = Math.atan2(b[1] - a[1], b[0] - a[0]), nx = -Math.sin(ang), ny = Math.cos(ang);
+          ctx.beginPath();
+          ctx.moveTo(a[0] - nx * tick, a[1] - ny * tick); ctx.lineTo(a[0] + nx * tick, a[1] + ny * tick);
+          ctx.moveTo(b[0] - nx * tick, b[1] - ny * tick); ctx.lineTo(b[0] + nx * tick, b[1] + ny * tick);
+          ctx.stroke();
+          if (s.txt) {
+            let ta = ang;
+            if (ta > Math.PI / 2 || ta < -Math.PI / 2) ta += Math.PI;
+            ctx.translate((a[0] + b[0]) / 2, (a[1] + b[1]) / 2);
+            ctx.rotate(ta);
+            ctx.font = `${12 * k}px Arial, Helvetica, sans-serif`;
+            ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+            ctx.fillText(s.txt, 0, -3 * k);
+          }
+          break;
+        }
+        case 'text':
+          if (!s.txt) break;
+          ctx.font = `${13 * k}px Arial, Helvetica, sans-serif`;
+          ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+          ctx.fillText(s.txt, P[0][0], P[0][1]);
+          break;
+        default: break;
+      }
+      ctx.restore();
+    } catch (err) { console.warn('Could not draw stroke', err); }
+  }
+}
+
+/* =====================================================================
+   PDF library loader (CDN, with fallback host)
+   ===================================================================== */
+function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement('script');
+    s.src = src; s.async = true;
+    s.onload = resolve;
+    s.onerror = () => { s.remove(); reject(new Error('Failed to load ' + src)); };
+    document.head.appendChild(s);
+  });
+}
+async function ensurePdfLibs() {
+  const need = [
+    { ok: () => !!window.html2canvas, urls: [
+      'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js',
+      'https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js'] },
+    { ok: () => !!(window.jspdf && window.jspdf.jsPDF), urls: [
+      'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',
+      'https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js'] }
+  ];
+  for (const n of need) {
+    if (n.ok()) continue;
+    let loaded = false;
+    for (const u of n.urls) {
+      try { await loadScript(u); if (n.ok()) { loaded = true; break; } } catch (e) { console.warn(e); }
+    }
+    if (!loaded) throw new Error('PDF libraries could not be loaded');
+  }
+}
+
+/* =====================================================================
+   Application
+   ===================================================================== */
+class App {
+  constructor() {
+    const saved = Store.read(LS.settings, {});
+    this.settings = Object.assign({ prefix: 'QTN', counters: {}, logo: null }, saved);
+    if (!this.settings.counters || typeof this.settings.counters !== 'object') this.settings.counters = {};
+    this.state = null;
+    this.sketches = [];
+    this.initSketch = null;
+    this.dirty = false;
+    this.saveTimer = null;
+    this.busy = false;
+    this.lastFailToast = 0;
+    this.printTitle = document.title;
+  }
+
+  /* ---------- lifecycle ---------- */
+  init() {
+    this.tbody = $('#rows');
+    $('#prefix').value = this.settings.prefix;
+    this.renderLogo();
+    this.bindToolbar();
+    this.bindFields();
+    this.bindRows();
+    this.bindLogo();
+    this.bindPrintEvents();
+
+    const draft = Store.read(LS.draft, null);
+    this.setState(draft && typeof draft === 'object' ? draft : this.blankState(true));
+    if (!draft) this.writeDraft();
+    else this.setStatus('Restored last draft');
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(autoGrowAll);
+    window.addEventListener('load', () => setTimeout(() => ensurePdfLibs().catch(() => {}), 1500));
+  }
+
+  /* ---------- settings ---------- */
+  saveSettings() { Store.write(LS.settings, this.settings); }
+  cleanPrefix() {
+    const p = String(this.settings.prefix || '').trim().toUpperCase().replace(/[^A-Z0-9_-]/g, '');
+    return p || 'QTN';
+  }
+  nextQuoteNo() {
+    const y = new Date().getFullYear();
+    const n = (this.settings.counters[y] || 0) + 1;
+    this.settings.counters[y] = n;
+    this.saveSettings();
+    return `${this.cleanPrefix()}-${y}-${pad(n)}`;
+  }
+
+  /* ---------- state ---------- */
+  blankRow() {
+    return { id: uid('row'), nos: '', series: '', colour: '', glass: '', remark: '', location: '', width: '', height: '',
+             sketch: { strokes: [], grid: false } };
+  }
+  blankState(newQuote) {
+    return {
+      id: uid('sheet'), created: Date.now(), updated: Date.now(),
+      info: { customer: '', address: '', contact: '', mail: '', refName: '', pageNo: '1', visitDate: todayISO(),
+              quoteNo: newQuote ? this.nextQuoteNo() : '', salesman: '' },
+      rows: [this.blankRow()],
+      sign: { prepared: '', checked: '', customer: '', authorized: '' },
+      initials: { strokes: [], grid: false }
+    };
+  }
+  normalize(s) {
+    const b = this.blankState(false);
+    s = s && typeof s === 'object' ? s : {};
+    const out = Object.assign({}, b, s);
+    out.info = Object.assign({}, b.info, s.info || {});
+    out.sign = Object.assign({}, b.sign, s.sign || {});
+    out.initials = { strokes: Array.isArray(s.initials && s.initials.strokes) ? s.initials.strokes : [], grid: false };
+    const rows = Array.isArray(s.rows) && s.rows.length ? s.rows : [this.blankRow()];
+    out.rows = rows.map(r => {
+      r = r && typeof r === 'object' ? r : {};
+      const row = Object.assign(this.blankRow(), r);
+      row.sketch = { strokes: Array.isArray(r.sketch && r.sketch.strokes) ? r.sketch.strokes : [], grid: !!(r.sketch && r.sketch.grid) };
+      return row;
+    });
+    return out;
+  }
+  setState(s) {
+    this.teardown();
+    this.state = this.normalize(s);
+    this.fillFields();
+    this.renderRows();
+    this.mountInitials();
+    this.updateRunning();
+    this.dirty = false;
+  }
+  teardown() {
+    this.sketches.forEach(x => x.sk.destroy());
+    this.sketches = [];
+    if (this.initSketch) { this.initSketch.destroy(); this.initSketch = null; }
+    if (this.tbody) this.tbody.innerHTML = '';
+  }
+  rowById(id) { return this.state.rows.find(r => r.id === id); }
+
+  /* ---------- persistence ---------- */
+  markChanged() {
+    this.dirty = true;
+    this.state.updated = Date.now();
+    this.updateRunning();
+    clearTimeout(this.saveTimer);
+    this.saveTimer = setTimeout(() => this.writeDraft(), 400);
+  }
+  writeDraft() {
+    clearTimeout(this.saveTimer);
+    if (!this.state) return;
+    const ok = Store.write(LS.draft, this.state);
+    if (ok) this.setStatus('Auto-saved ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+    else if (Date.now() - this.lastFailToast > 8000) {
+      this.lastFailToast = Date.now();
+      toast('Auto-save failed. Browser storage is full or blocked.', 'error', 5000);
+    }
+  }
+  setStatus(t) { $('#status').textContent = t; }
+
+  /* ---------- fields ---------- */
+  bindFields() {
+    document.addEventListener('input', e => {
+      const t = e.target;
+      if (!t || !t.dataset) return;
+      if (t.dataset.info) {
+        this.state.info[t.dataset.info] = t.value;
+        t.classList.remove('invalid');
+        if (t.tagName === 'TEXTAREA') autoGrow(t);
+        this.markChanged();
+      } else if (t.dataset.sign) {
+        this.state.sign[t.dataset.sign] = t.value;
+        this.markChanged();
+      }
+    });
+    $('#btnQuoteAuto').addEventListener('click', () => {
+      this.state.info.quoteNo = this.nextQuoteNo();
+      $('#f_quote').value = this.state.info.quoteNo;
+      this.markChanged();
+      toast('Quote No. generated: ' + this.state.info.quoteNo);
+    });
+    $('#prefix').addEventListener('input', e => {
+      this.settings.prefix = e.target.value;
+      this.saveSettings();
+    });
+    $('#prefix').addEventListener('blur', e => {
+      e.target.value = this.cleanPrefix();
+      this.settings.prefix = e.target.value;
+      this.saveSettings();
+    });
+  }
+  fillFields() {
+    $$('[data-info]').forEach(el => { el.value = this.state.info[el.dataset.info] ?? ''; el.classList.remove('invalid'); });
+    $$('[data-sign]').forEach(el => { el.value = this.state.sign[el.dataset.sign] ?? ''; });
+    autoGrowAll();
+  }
+  updateRunning() {
+    const i = this.state.info;
+    $('#runQuote').textContent = i.quoteNo || '-';
+    $('#runDate').textContent = fmtDate(i.visitDate) || '-';
+    $('#runPage').textContent = i.pageNo || '-';
+  }
+  mountInitials() {
+    this.initSketch = new Sketch($('#initHost'), this.state.initials, {
+      mini: true, label: 'Initials',
+      onChange: d => { this.state.initials = d; this.markChanged(); }
+    });
+  }
+
+  /* ---------- logo ---------- */
+  renderLogo() {
+    const b = $('#logoBtn');
+    b.innerHTML = '';
+    if (this.settings.logo) {
+      const img = document.createElement('img');
+      img.alt = 'Company logo'; img.src = this.settings.logo;
+      b.appendChild(img);
+    } else b.innerHTML = LOGO_SVG;
+  }
+  bindLogo() {
+    const file = $('#logoFile');
+    $('#logoBtn').addEventListener('click', e => {
+      if (e.shiftKey) {
+        this.settings.logo = null; this.saveSettings(); this.renderLogo();
+        toast('Default logo restored'); return;
+      }
+      file.click();
+    });
+    file.addEventListener('change', () => {
+      const f = file.files && file.files[0];
+      file.value = '';
+      if (!f) return;
+      if (!/^image\//.test(f.type)) { toast('Choose an image file for the logo.', 'warn'); return; }
+      const url = URL.createObjectURL(f);
+      const img = new Image();
+      img.onload = () => {
+        try {
+          const max = 300, r = Math.min(1, max / Math.max(img.width, img.height));
+          const c = document.createElement('canvas');
+          c.width = Math.max(1, Math.round(img.width * r)); c.height = Math.max(1, Math.round(img.height * r));
+          const x = c.getContext('2d');
+          x.fillStyle = '#fff'; x.fillRect(0, 0, c.width, c.height);
+          x.drawImage(img, 0, 0, c.width, c.height);
+          this.settings.logo = c.toDataURL('image/png');
+          this.saveSettings(); this.renderLogo();
+          toast('Logo updated');
+        } catch (err) { console.error(err); toast('Could not use that image.', 'error'); }
+        URL.revokeObjectURL(url);
+      };
+      img.onerror = () => { URL.revokeObjectURL(url); toast('Could not read that image.', 'error'); };
+      img.src = url;
+    });
+  }
+
+  /* ---------- rows ---------- */
+  renderRows() {
+    this.tbody.innerHTML = '';
+    this.state.rows.forEach(r => this.tbody.appendChild(this.buildRow(r)));
+    this.renumber();
+    autoGrowAll();
+  }
+  buildRow(row) {
+    const tr = document.createElement('tr');
+    tr.className = 'mrow';
+    tr.dataset.id = row.id;
+    tr.innerHTML = `
+      <td class="c-sno"><span class="sno"></span>
+        <div class="rowctl no-print">
+          <button type="button" class="rc drag" title="Drag to reorder (or press Up/Down arrow keys)" aria-label="Move row">${ICON.grip}</button>
+          <button type="button" class="rc dup" title="Duplicate row" aria-label="Duplicate row">${ICON.dup}</button>
+          <button type="button" class="rc del" title="Delete row" aria-label="Delete row">${ICON.trash}</button>
+        </div>
+      </td>
+      <td class="c-draw"><div class="sk-host"></div>
+        <div class="dims"><span>W</span><input class="fld" data-k="width" type="text" inputmode="decimal" maxlength="10" aria-label="Width in millimetres" autocomplete="off">
+          <span>H</span><input class="fld" data-k="height" type="text" inputmode="decimal" maxlength="10" aria-label="Height in millimetres" autocomplete="off"><span>mm</span></div>
+      </td>
+      <td class="c-nos"><input class="fld nos" data-k="nos" type="number" min="0" step="1" inputmode="numeric" aria-label="Nos"></td>
+      <td><textarea class="fld cell" data-k="series" aria-label="Series" rows="1"></textarea></td>
+      <td><textarea class="fld cell" data-k="colour" aria-label="Colour" rows="1"></textarea></td>
+      <td><textarea class="fld cell" data-k="glass" aria-label="Glass" rows="1"></textarea></td>
+      <td><textarea class="fld cell" data-k="remark" aria-label="Remark" rows="1"></textarea></td>
+      <td><textarea class="fld cell" data-k="location" aria-label="Location" rows="1"></textarea></td>`;
+    $$('[data-k]', tr).forEach(el => { el.value = row[el.dataset.k] ?? ''; });
+    this.updateDims(tr, row);
+    const sk = new Sketch($('.sk-host', tr), row.sketch, {
+      label: 'Drawing area',
+      onChange: d => { row.sketch = d; this.markChanged(); }
+    });
+    this.sketches.push({ id: row.id, sk });
+    return tr;
+  }
+  updateDims(tr, row) {
+    $('.dims', tr).classList.toggle('empty', !String(row.width || '').trim() && !String(row.height || '').trim());
+  }
+  renumber() {
+    $$('.mrow', this.tbody).forEach((tr, i) => {
+      $('.sno', tr).textContent = String(i + 1);
+      const c = $('.sk-canvas', tr);
+      if (c) c.setAttribute('aria-label', `Drawing area for row ${i + 1}`);
+    });
+  }
+  bindRows() {
+    const tb = this.tbody;
+    tb.addEventListener('input', e => {
+      const el = e.target, k = el.dataset && el.dataset.k;
+      if (!k) return;
+      const tr = el.closest('.mrow'), row = tr && this.rowById(tr.dataset.id);
+      if (!row) return;
+      row[k] = el.value;
+      if (el.tagName === 'TEXTAREA') autoGrow(el);
+      if (k === 'width' || k === 'height') this.updateDims(tr, row);
+      this.markChanged();
+    });
+    tb.addEventListener('change', e => {
+      const el = e.target;
+      if (!el.dataset || el.dataset.k !== 'nos') return;
+      const tr = el.closest('.mrow'), row = tr && this.rowById(tr.dataset.id);
+      if (!row) return;
+      const n = parseInt(el.value, 10);
+      el.value = Number.isFinite(n) && n >= 0 ? String(n) : '';
+      row.nos = el.value;
+      this.markChanged();
+    });
+    tb.addEventListener('keydown', e => {
+      const el = e.target;
+      if (el.dataset && el.dataset.k === 'nos' && ['e', 'E', '+', '-', '.', ','].includes(e.key)) { e.preventDefault(); return; }
+      const h = el.closest && el.closest('.drag');
+      if (h && (e.key === 'ArrowUp' || e.key === 'ArrowDown')) {
+        e.preventDefault();
+        const tr = h.closest('.mrow');
+        const sib = e.key === 'ArrowUp' ? tr.previousElementSibling : tr.nextElementSibling;
+        if (!sib) return;
+        if (e.key === 'ArrowUp') tb.insertBefore(tr, sib); else tb.insertBefore(sib, tr);
+        this.syncOrder();
+        $('.drag', tr).focus();
+      }
+    });
+    tb.addEventListener('click', e => {
+      const b = e.target.closest('button.rc');
+      if (!b) return;
+      const tr = b.closest('.mrow');
+      if (b.classList.contains('dup')) this.duplicateRow(tr.dataset.id);
+      else if (b.classList.contains('del')) this.deleteRow(tr.dataset.id);
+    });
+    tb.addEventListener('pointerdown', e => {
+      const h = e.target.closest('.drag');
+      if (h && (e.pointerType !== 'mouse' || e.button === 0)) this.startDrag(e, h, h.closest('.mrow'));
+    });
+  }
+  addRow(focus = true) {
+    const row = this.blankRow();
+    this.state.rows.push(row);
+    const tr = this.buildRow(row);
+    this.tbody.appendChild(tr);
+    this.renumber();
+    this.markChanged();
+    if (focus) {
+      tr.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      const n = $('[data-k="nos"]', tr); if (n) n.focus({ preventScroll: true });
+    }
+    toast('Row added');
+  }
+  duplicateRow(id) {
+    const idx = this.state.rows.findIndex(r => r.id === id);
+    if (idx < 0) return;
+    const copy = clone(this.state.rows[idx]);
+    copy.id = uid('row');
+    this.state.rows.splice(idx + 1, 0, copy);
+    const tr = this.buildRow(copy);
+    const src = $(`.mrow[data-id="${id}"]`, this.tbody);
+    src.after(tr);
+    this.renumber();
+    autoGrowAll();
+    this.markChanged();
+    toast('Row duplicated');
+  }
+  async deleteRow(id) {
+    const ok = await confirmDialog({
+      title: 'Delete this row?',
+      message: 'The row and its drawing will be removed from this sheet.',
+      ok: 'Delete Row', danger: true
+    });
+    if (!ok) return;
+    const idx = this.state.rows.findIndex(r => r.id === id);
+    if (idx < 0) return;
+    const si = this.sketches.findIndex(x => x.id === id);
+    if (si >= 0) { this.sketches[si].sk.destroy(); this.sketches.splice(si, 1); }
+    this.state.rows.splice(idx, 1);
+    const tr = $(`.mrow[data-id="${id}"]`, this.tbody);
+    if (tr) tr.remove();
+    if (!this.state.rows.length) {
+      const row = this.blankRow();
+      this.state.rows.push(row);
+      this.tbody.appendChild(this.buildRow(row));
+    }
+    this.renumber();
+    this.markChanged();
+    toast('Row deleted');
+  }
+  syncOrder() {
+    const order = $$('.mrow', this.tbody).map(tr => tr.dataset.id);
+    this.state.rows.sort((a, b) => order.indexOf(a.id) - order.indexOf(b.id));
+    this.renumber();
+    this.markChanged();
+  }
+  startDrag(e, handle, tr) {
+    e.preventDefault();
+    try { handle.setPointerCapture(e.pointerId); } catch (err) { /* ignore */ }
+    tr.classList.add('dragging');
+    const tb = this.tbody;
+    const move = ev => {
+      const y = ev.clientY;
+      let target = null;
+      for (const r of $$('.mrow', tb)) {
+        if (r === tr) continue;
+        const b = r.getBoundingClientRect();
+        if (y < b.top + b.height / 2) { target = r; break; }
+      }
+      if (target) { if (tr.nextElementSibling !== target) tb.insertBefore(tr, target); }
+      else if (tb.lastElementChild !== tr) tb.appendChild(tr);
+      if (y < 70) window.scrollBy(0, -16); else if (y > window.innerHeight - 70) window.scrollBy(0, 16);
+    };
+    const up = () => {
+      handle.removeEventListener('pointermove', move);
+      handle.removeEventListener('pointerup', up);
+      handle.removeEventListener('pointercancel', up);
+      tr.classList.remove('dragging');
+      this.syncOrder();
+    };
+    handle.addEventListener('pointermove', move);
+    handle.addEventListener('pointerup', up);
+    handle.addEventListener('pointercancel', up);
+  }
+
+  /* ---------- toolbar actions ---------- */
+  bindToolbar() {
+    $('#btnNew').addEventListener('click', () => this.newSheet());
+    $('#btnSave').addEventListener('click', () => this.save());
+    $('#btnLoad').addEventListener('click', () => this.openLoad());
+    $('#btnAdd').addEventListener('click', () => this.addRow());
+    $('#btnAddBottom').addEventListener('click', () => this.addRow());
+    $('#btnPrint').addEventListener('click', () => this.printSheet());
+    $('#btnPdf').addEventListener('click', () => this.downloadPdf());
+    $('#btnReset').addEventListener('click', () => this.resetSheet());
+    $('#loadClose').addEventListener('click', () => $('#loadDlg').close());
+    document.addEventListener('keydown', e => {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 's') { e.preventDefault(); this.save(); }
+    });
+    window.addEventListener('beforeunload', () => { if (this.state) Store.write(LS.draft, this.state); });
+    document.addEventListener('visibilitychange', () => { if (document.hidden) this.writeDraft(); });
+  }
+
+  missingFields() {
+    const i = this.state.info, m = [];
+    if (!String(i.customer).trim()) m.push(['Customer Name', 'f_customer']);
+    if (!i.visitDate) m.push(['Visit Date', 'f_date']);
+    return m;
+  }
+  flagMissing(m) {
+    m.forEach(([, id]) => $('#' + id).classList.add('invalid'));
+    $('#' + m[0][1]).focus();
+  }
+
+  async newSheet() {
+    if (this.dirty) {
+      const ok = await confirmDialog({
+        title: 'Start a new sheet?',
+        message: 'This sheet has changes that are not saved to your library. Starting a new sheet replaces the current draft.',
+        ok: 'New Sheet'
+      });
+      if (!ok) return;
+    }
+    this.setState(this.blankState(true));
+    this.writeDraft();
+    window.scrollTo({ top: 0 });
+    toast('New sheet started: ' + this.state.info.quoteNo);
+  }
+
+  save() {
+    const m = this.missingFields();
+    if (m.length) {
+      this.flagMissing(m);
+      toast('Enter ' + m.map(x => x[0]).join(' and ') + ' before saving.', 'warn', 3500);
+      return;
+    }
+    const lib = Store.read(LS.lib, {});
+    this.state.updated = Date.now();
+    lib[this.state.id] = clone(this.state);
+    if (!Store.write(LS.lib, lib)) {
+      toast('Could not save. Browser storage is full or blocked.', 'error', 5000);
+      return;
+    }
+    this.dirty = false;
+    this.writeDraft();
+    toast('Saved ' + (this.state.info.quoteNo || 'sheet'), 'info');
+  }
+
+  openLoad() {
+    const dlg = $('#loadDlg');
+    this.renderLoadList();
+    try { dlg.showModal(); } catch (e) { toast('Could not open the list.', 'error'); }
+  }
+  renderLoadList() {
+    const list = $('#loadList');
+    list.innerHTML = '';
+    const lib = Store.read(LS.lib, {});
+    const items = Object.values(lib).filter(x => x && x.id).sort((a, b) => (b.updated || 0) - (a.updated || 0));
+    if (!items.length) {
+      const li = document.createElement('li');
+      const p = document.createElement('div');
+      p.className = 'empty-msg';
+      p.textContent = 'No saved sheets yet. Use Save to keep a copy of the current sheet here.';
+      li.appendChild(p); list.appendChild(li);
+      return;
+    }
+    items.forEach(s => {
+      const info = s.info || {};
+      const li = document.createElement('li');
+      const main = document.createElement('div'); main.className = 'li-main';
+      const a = document.createElement('strong'); a.textContent = info.quoteNo || '(no quote no.)';
+      const b = document.createElement('span');
+      b.textContent = [info.customer, fmtDate(info.visitDate)].filter(Boolean).join('  |  ') || 'No customer name';
+      const c = document.createElement('small');
+      c.textContent = `${(s.rows || []).length} row(s), saved ${fmtStamp(s.updated)}`;
+      main.append(a, b, c);
+      const act = document.createElement('div'); act.className = 'li-act';
+      const open = document.createElement('button'); open.type = 'button'; open.className = 'b2 solid'; open.textContent = 'Open';
+      const del = document.createElement('button'); del.type = 'button'; del.className = 'b2'; del.textContent = 'Delete';
+      open.addEventListener('click', () => this.loadSheet(s.id));
+      del.addEventListener('click', () => this.deleteSaved(s.id));
+      act.append(open, del);
+      li.append(main, act);
+      list.appendChild(li);
+    });
+  }
+  async loadSheet(id) {
+    const lib = Store.read(LS.lib, {});
+    const s = lib[id];
+    if (!s) { toast('That sheet is no longer available.', 'warn'); this.renderLoadList(); return; }
+    if (this.dirty && id !== this.state.id) {
+      const ok = await confirmDialog({
+        title: 'Load this sheet?',
+        message: 'The current sheet has changes that are not saved. Loading replaces it.',
+        ok: 'Load Sheet'
+      });
+      if (!ok) return;
+    }
+    $('#loadDlg').close();
+    this.setState(s);
+    this.writeDraft();
+    window.scrollTo({ top: 0 });
+    toast('Loaded ' + (this.state.info.quoteNo || 'sheet'));
+  }
+  async deleteSaved(id) {
+    const ok = await confirmDialog({
+      title: 'Delete saved sheet?',
+      message: 'This removes the saved copy from this browser. It cannot be undone.',
+      ok: 'Delete', danger: true
+    });
+    if (!ok) { if (!$('#loadDlg').open) $('#loadDlg').showModal(); return; }
+    const lib = Store.read(LS.lib, {});
+    delete lib[id];
+    Store.write(LS.lib, lib);
+    toast('Saved sheet deleted');
+    this.renderLoadList();
+    if (!$('#loadDlg').open) $('#loadDlg').showModal();
+  }
+
+  async resetSheet() {
+    const ok = await confirmDialog({
+      title: 'Reset this sheet?',
+      message: 'All fields, rows and drawings on this sheet will be cleared. The Quote No. is kept. Copies saved with Save are not affected.',
+      ok: 'Reset Sheet', danger: true
+    });
+    if (!ok) return;
+    const b = this.blankState(false);
+    b.id = this.state.id; b.created = this.state.created;
+    b.info.quoteNo = this.state.info.quoteNo;
+    this.setState(b);
+    this.markChanged();
+    this.writeDraft();
+    toast('Sheet reset');
+  }
+
+  /* ---------- print ---------- */
+  bindPrintEvents() {
+    window.addEventListener('beforeprint', () => {
+      if (!this.state) return;
+      this.printTitle = document.title;
+      document.title = 'Site Visit Measurement Sheet - ' + (this.state.info.quoteNo || 'Untitled');
+      $$('.invalid').forEach(el => el.classList.remove('invalid'));
+      if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+      autoGrowAll();
+    });
+    window.addEventListener('afterprint', () => { document.title = this.printTitle; });
+  }
+  async checkBeforeOutput(what) {
+    const m = this.missingFields();
+    if (!m.length) return true;
+    this.flagMissing(m);
+    return confirmDialog({
+      title: m.map(x => x[0]).join(' and ') + ' not filled in',
+      message: `${m.map(x => x[0]).join(' and ')} ${m.length > 1 ? 'are' : 'is'} empty. ${what} anyway?`,
+      ok: what
+    });
+  }
+  async printSheet() {
+    if (!(await this.checkBeforeOutput('Print'))) return;
+    $$('.invalid').forEach(el => el.classList.remove('invalid'));
+    autoGrowAll();
+    window.print();
+  }
+
+  /* ---------- PDF ---------- */
+  flatten(orig) {
+    const c = orig.cloneNode(true);
+    const oi = $$('input,textarea', orig), ci = $$('input,textarea', c);
+    oi.forEach((o, i) => {
+      const d = document.createElement('div');
+      d.className = (o.className || '') + ' pv';
+      d.classList.remove('invalid');
+      let v = o.value;
+      if (o.type === 'date') v = fmtDate(v);
+      d.textContent = v;
+      ci[i].replaceWith(d);
+    });
+    const oc = $$('canvas', orig), cc = $$('canvas', c);
+    oc.forEach((o, i) => {
+      const img = new Image();
+      img.className = o.className;
+      img.src = o.toDataURL('image/png');
+      cc[i].replaceWith(img);
+    });
+    $$('.no-print', c).forEach(n => n.remove());
+    $$('.sk-wrap.grid', c).forEach(n => n.classList.remove('grid'));
+    $$('[id]', c).forEach(n => n.removeAttribute('id'));
+    return c;
+  }
+
+  async downloadPdf() {
+    if (this.busy) return;
+    if (!(await this.checkBeforeOutput('Create PDF'))) return;
+    $$('.invalid').forEach(el => el.classList.remove('invalid'));
+    if (document.activeElement && document.activeElement.blur) document.activeElement.blur();
+    this.busy = true;
+    const btn = $('#btnPdf'), busy = $('#busy'), msg = $('#busyMsg');
+    btn.disabled = true;
+    let stage = null;
+    try {
+      try { await ensurePdfLibs(); }
+      catch (e) {
+        this.busy = false; btn.disabled = false;
+        const go = await confirmDialog({
+          title: 'PDF library not available',
+          message: 'The PDF library could not be loaded (you may be offline). Open the print dialog instead? Choose "Save as PDF" as the destination.',
+          ok: 'Open Print Dialog'
+        });
+        if (go) window.print();
+        return;
+      }
+      autoGrowAll();
+      await new Promise(r => setTimeout(r, 50));
+      busy.classList.add('on');
+      msg.textContent = 'Preparing PDF...';
+      await new Promise(r => requestAnimationFrame(() => requestAnimationFrame(r)));
+
+      stage = document.createElement('div');
+      stage.className = 'pdf-stage';
+      document.body.appendChild(stage);
+
+      const CW = 190, PW = 210, PH = 297, ML = 10, MT = 10, MB = 14;
+      const capture = async node => {
+        stage.innerHTML = '';
+        const wrap = document.createElement('div');
+        wrap.className = 'piece';
+        wrap.appendChild(node);
+        stage.appendChild(wrap);
+        await Promise.all($$('img', wrap).map(i => (i.decode ? i.decode().catch(() => {}) : Promise.resolve())));
+        const r = wrap.getBoundingClientRect();
+        const cv = await window.html2canvas(wrap, {
+          scale: 3, backgroundColor: '#ffffff', logging: false, useCORS: true,
+          windowWidth: Math.max(1000, window.innerWidth)
+        });
+        return { img: cv.toDataURL('image/png'), h: r.height * (CW / r.width) };
+      };
+      const colgroup = $('#mtable colgroup');
+      const wrapTable = section => {
+        const t = document.createElement('table');
+        t.className = 'mtable';
+        t.appendChild(colgroup.cloneNode(true));
+        t.appendChild(section);
+        return t;
+      };
+
+      const rows = $$('.mrow', this.tbody);
+      const total = rows.length + 4;
+      let n = 0;
+      const step = () => { n++; msg.textContent = `Preparing PDF... (${n}/${total})`; };
+
+      const header = await capture(this.flatten($('#docHeader'))); step();
+      const info = await capture(this.flatten($('#cust'))); step();
+      const thead = await capture(wrapTable(this.flatten($('#mtable thead')))); step();
+      const rowPieces = [];
+      for (const tr of rows) {
+        const tb = document.createElement('tbody');
+        tb.appendChild(this.flatten(tr));
+        rowPieces.push(await capture(wrapTable(tb)));
+        step();
+      }
+      const sign = await capture(this.flatten($('#sign'))); step();
+
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait', compress: true });
+      let y = MT;
+      const place = p => { doc.addImage(p.img, 'PNG', ML, y, CW, p.h, undefined, 'FAST'); y += p.h; };
+      const newPage = () => { doc.addPage(); y = MT; place(header); place(thead); };
+      const limit = PH - MB;
+
+      place(header); place(info); place(thead);
+      const top = () => header.h + thead.h + MT;
+      rowPieces.forEach(p => {
+        if (y + p.h > limit && y > top() + 0.5) newPage();
+        place(p);
+      });
+      if (y + 6 + sign.h > limit) newPage();
+      y += 6;
+      place(sign);
+
+      const pages = doc.getNumberOfPages();
+      const qn = this.state.info.quoteNo || '';
+      for (let i = 1; i <= pages; i++) {
+        doc.setPage(i);
+        doc.setDrawColor(20, 48, 94); doc.setLineWidth(0.2);
+        doc.line(ML, PH - 10.5, PW - ML, PH - 10.5);
+        doc.setFont('helvetica', 'normal'); doc.setFontSize(8); doc.setTextColor(20, 48, 94);
+        doc.text('FABRICATIONZONE WINDOOR PVT. LTD. | Site Visit Measurement Sheet' + (qn ? ' | ' + qn : ''), ML, PH - 7);
+        doc.text(`Page ${i} of ${pages}`, PW - ML, PH - 7, { align: 'right' });
+      }
+      doc.setProperties({ title: 'Site Visit Measurement Sheet ' + qn, author: 'FABRICATIONZONE WINDOOR PVT. LTD.' });
+      const safe = ('Site_Visit_Measurement_Sheet_' + (qn || 'draft')).replace(/[^A-Za-z0-9_-]+/g, '_');
+      doc.save(safe + '.pdf');
+      toast('PDF downloaded');
+    } catch (err) {
+      console.error(err);
+      toast('Could not create the PDF. Try Print and choose Save as PDF.', 'error', 5000);
+    } finally {
+      if (stage) stage.remove();
+      busy.classList.remove('on');
+      btn.disabled = false;
+      this.busy = false;
+    }
+  }
+}
+
+/* =====================================================================
+   Boot
+   ===================================================================== */
+try {
+  window.measurementApp = new App();
+  window.measurementApp.init();
+} catch (err) {
+  console.error(err);
+  document.body.insertAdjacentHTML('afterbegin',
+    '<div style="padding:16px;background:#8f1d17;color:#fff;font:14px Arial">The sheet could not start: ' +
+    String(err && err.message ? err.message : err).replace(/</g, '&lt;') + '</div>');
+}
+})();
+</script>
+</body>
+</html>
